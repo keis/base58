@@ -4,6 +4,8 @@ Implementations of Base58 and Base58Check endcodings that are compatible
 with the bitcoin network.
 '''
 
+__version__ = '0.1.0'
+
 from hashlib import sha256
 
 # 58 character alphabet used
