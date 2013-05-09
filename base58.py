@@ -68,3 +68,47 @@ def b58decode_check(v):
         raise ValueError("Invalid checksum")
 
     return result
+
+
+def main():
+    '''Base58 encode or decode FILE, or standard input, to standard output.'''
+
+    import sys
+    import argparse
+
+    parser = argparse.ArgumentParser(description=main.__doc__)
+    parser.add_argument(
+        'file',
+        metavar='FILE',
+        nargs='?',
+        type=argparse.FileType('r'),
+        default='-')
+    parser.add_argument(
+        '-d', '--decode',
+        action='store_true',
+        help='decode data')
+    parser.add_argument(
+        '-c', '--check',
+        action='store_true',
+        help='decode data')
+
+    args = parser.parse_args()
+    fun = {
+        (False, False): b58encode,
+        (False, True): b58encode_check,
+        (True, False): b58decode,
+        (True, True): b58decode_check
+    }[(args.decode, args.check)]
+
+    data = args.file.read().rstrip('\n')
+
+    try:
+        result = fun(data)
+    except Exception as e:
+        sys.exit(e)
+
+    print(result)
+
+
+if __name__ == '__main__':
+    main()
