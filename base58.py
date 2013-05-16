@@ -109,7 +109,7 @@ def main():
     except Exception as e:
         sys.exit(e)
 
-    print(result)
+    sys.stdout.write(result)
 
 
 if __name__ == '__main__':
