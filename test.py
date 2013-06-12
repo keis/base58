@@ -23,27 +23,27 @@ def assert_raises(matcher=None, message=''):
 
 
 def test_simple_encode():
-    data = b58encode('hello world')
+    data = b58encode(b'hello world')
     assert_that(data, equal_to('StV1DL6CwTryKyV'))
 
 
 def test_leadingz_encode():
-    data = b58encode('\0\0hello world')
+    data = b58encode(b'\0\0hello world')
     assert_that(data, equal_to('11StV1DL6CwTryKyV'))
 
 
 def test_simple_decode():
     data = b58decode('StV1DL6CwTryKyV')
-    assert_that(data, equal_to('hello world'))
+    assert_that(data, equal_to(b'hello world'))
 
 
 def test_leadingz_decode():
     data = b58decode('11StV1DL6CwTryKyV')
-    assert_that(data, equal_to('\0\0hello world'))
+    assert_that(data, equal_to(b'\0\0hello world'))
 
 
 def test_check_identity():
-    data = 'hello world'
+    data = b'hello world'
     out = b58decode_check(b58encode_check(data))
     assert_that(out, equal_to(data))
 

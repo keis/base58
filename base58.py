@@ -12,16 +12,24 @@ from hashlib import sha256
 alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 
 
+if bytes == str:  # python2
+    iseq = lambda s: map(ord, s)
+    bseq = lambda s: ''.join(map(chr, s))
+else:  # python3
+    iseq = lambda s: s
+    bseq = bytes
+
+
 def b58encode(v):
     '''Encode a string using Base58'''
 
     origlen = len(v)
-    v = v.lstrip('\0')
+    v = v.lstrip(b'\0')
     newlen = len(v)
 
     p, acc = 1, 0
-    for c in v[::-1]:
-        acc += p * ord(c)
+    for c in iseq(v[::-1]):
+        acc += p * c
         p = p << 8
 
     result = ''
@@ -44,12 +52,13 @@ def b58decode(v):
         acc += p * alphabet.index(c)
         p *= 58
 
-    result = ''
+    result = []
     while acc >= 256:
         acc, mod = divmod(acc, 256)
-        result += chr(mod)
+        result.append(mod)
+    result.append(acc)
 
-    return (result + chr(acc) + '\0' * (origlen - newlen))[::-1]
+    return (bseq(result) + b'\0' * (origlen - newlen))[::-1]
 
 
 def b58encode_check(v):
