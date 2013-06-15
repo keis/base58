@@ -4,7 +4,12 @@ Implementations of Base58 and Base58Check endcodings that are compatible
 with the bitcoin network.
 '''
 
-__version__ = '0.1.0'
+# This module is based upon base58 snippets found scattered over many bitcoin
+# tools written in python. From what I gather the original source is from a
+# forum post by Gavin Andresen, so direct your praise to him.
+# This module adds shiny packaging and support for python3.
+
+__version__ = '0.2.1'
 
 from hashlib import sha256
 
