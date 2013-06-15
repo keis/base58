@@ -15,9 +15,11 @@ alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 if bytes == str:  # python2
     iseq = lambda s: map(ord, s)
     bseq = lambda s: ''.join(map(chr, s))
+    buffer = lambda s: s
 else:  # python3
     iseq = lambda s: s
     bseq = bytes
+    buffer = lambda s: s.buffer
 
 
 def b58encode(v):
@@ -42,6 +44,9 @@ def b58encode(v):
 
 def b58decode(v):
     '''Decode a Base58 encoded string'''
+
+    if not isinstance(v, str):
+        v = v.decode('ascii')
 
     origlen = len(v)
     v = v.lstrip(alphabet[0])
@@ -87,6 +92,8 @@ def main():
     import sys
     import argparse
 
+    stdout = buffer(sys.stdout)
+
     parser = argparse.ArgumentParser(description=main.__doc__)
     parser.add_argument(
         'file',
@@ -111,14 +118,17 @@ def main():
         (True, True): b58decode_check
     }[(args.decode, args.check)]
 
-    data = args.file.read().rstrip('\n')
+    data = buffer(args.file).read().rstrip(b'\n')
 
     try:
         result = fun(data)
     except Exception as e:
         sys.exit(e)
 
-    sys.stdout.write(result)
+    if not isinstance(result, bytes):
+        result = result.encode('ascii')
+
+    stdout.write(result)
 
 
 if __name__ == '__main__':

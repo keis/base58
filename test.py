@@ -37,6 +37,11 @@ def test_simple_decode():
     assert_that(data, equal_to(b'hello world'))
 
 
+def test_simple_decode_bytes():
+    data = b58decode(b'StV1DL6CwTryKyV')
+    assert_that(data, equal_to(b'hello world'))
+
+
 def test_leadingz_decode():
     data = b58decode('11StV1DL6CwTryKyV')
     assert_that(data, equal_to(b'\0\0hello world'))
