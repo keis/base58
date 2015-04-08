@@ -113,7 +113,7 @@ def main():
     parser.add_argument(
         '-c', '--check',
         action='store_true',
-        help='decode data')
+        help='append a checksum before encoding')
 
     args = parser.parse_args()
     fun = {
