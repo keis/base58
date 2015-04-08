@@ -1,4 +1,5 @@
 from contextlib import contextmanager
+from itertools import product
 from hamcrest import assert_that, equal_to, instance_of
 from base58 import b58encode, b58decode, b58encode_check, b58decode_check
 
@@ -67,3 +68,12 @@ def test_check_failure():
     data = '3vQB7B6MrGQZaxCuFg4oH'
     with assert_raises(ValueError):
         b58decode_check(data)
+
+
+def test_round_trips():
+    possible_bytes = [b'\x00', b'\x01', b'\x10', b'\xff']
+    for length in range(0, 5):
+        for bytes_to_test in product(possible_bytes, repeat=length):
+            bytes_in = b''.join(bytes_to_test)
+            bytes_out = b58decode(b58encode(bytes_in))
+            assert_that(bytes_in, equal_to(bytes_out))
