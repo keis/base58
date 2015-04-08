@@ -40,11 +40,11 @@ def b58encode(v):
         p = p << 8
 
     result = ''
-    while acc >= 58:
+    while acc > 0:
         acc, mod = divmod(acc, 58)
         result += alphabet[mod]
 
-    return (result + alphabet[acc] + alphabet[0] * (origlen - newlen))[::-1]
+    return (result + alphabet[0] * (origlen - newlen))[::-1]
 
 
 def b58decode(v):
@@ -63,10 +63,9 @@ def b58decode(v):
         p *= 58
 
     result = []
-    while acc >= 256:
+    while acc > 0:
         acc, mod = divmod(acc, 256)
         result.append(mod)
-    result.append(acc)
 
     return (bseq(result) + b'\0' * (origlen - newlen))[::-1]
 

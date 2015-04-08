@@ -32,6 +32,11 @@ def test_leadingz_encode():
     assert_that(data, equal_to('11StV1DL6CwTryKyV'))
 
 
+def test_encode_empty():
+    data = b58encode(b'')
+    assert_that(data, equal_to(''))
+
+
 def test_simple_decode():
     data = b58decode('StV1DL6CwTryKyV')
     assert_that(data, equal_to(b'hello world'))
@@ -45,6 +50,11 @@ def test_simple_decode_bytes():
 def test_leadingz_decode():
     data = b58decode('11StV1DL6CwTryKyV')
     assert_that(data, equal_to(b'\0\0hello world'))
+
+
+def test_decode_empty():
+    data = b58decode('1')
+    assert_that(data, equal_to(b'\0'))
 
 
 def test_check_identity():
