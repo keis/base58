@@ -9,7 +9,7 @@ Base58 and Base58Check implementation compatible with what is used by the
 bitcoin network.
 
 
-## command line usage
+## Command line usage
 
     $ printf "hello world" | base58
     StV1DL6CwTryKyV
@@ -24,18 +24,18 @@ bitcoin network.
     Invalid checksum
 
 
-## module usage
+## Module usage
 
     >>> import base58
-    >>> base58.b58encode('hello world')
+    >>> base58.b58encode(b'hello world')
     'StV1DL6CwTryKyV'
-    >>> base58.b58decode('StV1DL6CwTryKyV')
-    'hello world'
-    >>> base58.b58encode_check('hello world')
+    >>> base58.b58decode(b'StV1DL6CwTryKyV')
+    b'hello world'
+    >>> base58.b58encode_check(b'hello world')
     '3vQB7B6MrGQZaxCuFg4oh'
-    >>> base58.b58decode_check('3vQB7B6MrGQZaxCuFg4oh')
-    'hello world'
-    >>> base58.b58decode_check('4vQB7B6MrGQZaxCuFg4oh')
+    >>> base58.b58decode_check(b'3vQB7B6MrGQZaxCuFg4oh')
+    b'hello world'
+    >>> base58.b58decode_check(b'4vQB7B6MrGQZaxCuFg4oh')
     Traceback (most recent call last):
       File "<stdin>", line 1, in <module>
       File "base58.py", line 89, in b58decode_check
