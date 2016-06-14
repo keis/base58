@@ -30,6 +30,10 @@ else:  # python3
 def b58encode(v):
     '''Encode a string using Base58'''
 
+    if not isinstance(v, bytes):
+        raise TypeError("a bytes-like object is required, not '%s'" %
+                        type(v).__name__)
+
     origlen = len(v)
     v = v.lstrip(b'\0')
     newlen = len(v)
