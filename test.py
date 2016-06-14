@@ -77,3 +77,9 @@ def test_round_trips():
             bytes_in = b''.join(bytes_to_test)
             bytes_out = b58decode(b58encode(bytes_in))
             assert_that(bytes_in, equal_to(bytes_out))
+
+
+def test_input_should_be_bytes():
+     data = u'3vQB7B6MrGQZaxCuFg4oH'
+     with assert_raises(TypeError):
+         b58encode(data)
