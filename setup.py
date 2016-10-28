@@ -7,6 +7,7 @@ setup(
     description='Base58 and Base58Check implementation',
     author='David Keijser',
     author_email='keijser@gmail.com',
+    url='https://github.com/keis/base58',
     license='MIT',
     entry_points={
         'console_scripts': [
