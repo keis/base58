@@ -13,14 +13,16 @@ __version__ = '0.2.3'
 
 from hashlib import sha256
 
+from typing import Callable, Union
+
 # 58 character alphabet used
 alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 
 
 if bytes == str:  # python2
-    iseq = lambda s: map(ord, s)
-    bseq = lambda s: ''.join(map(chr, s))
-    buffer = lambda s: s
+    iseq = lambda s: map(ord, s)  #type: Callable
+    bseq = lambda s: ''.join(map(chr, s))  #type: Callable
+    buffer = lambda s: s  #type: Callable
 else:  # python3
     iseq = lambda s: s
     bseq = bytes
@@ -28,6 +30,7 @@ else:  # python3
 
 
 def b58encode(v):
+    #type: (bytes) -> str
     '''Encode a string using Base58'''
 
     if not isinstance(v, bytes):
@@ -52,6 +55,7 @@ def b58encode(v):
 
 
 def b58decode(v):
+    #type: (Union[str, bytes]) -> bytes
     '''Decode a Base58 encoded string'''
 
     if not isinstance(v, str):
@@ -75,6 +79,7 @@ def b58decode(v):
 
 
 def b58encode_check(v):
+    #type: (bytes) -> str
     '''Encode a string using Base58 with a 4 character checksum'''
 
     digest = sha256(sha256(v).digest()).digest()
@@ -82,6 +87,7 @@ def b58encode_check(v):
 
 
 def b58decode_check(v):
+    #type: (Union[str, bytes]) -> bytes
     '''Decode and verify the checksum of a Base58 encoded string'''
 
     result = b58decode(v)
@@ -95,6 +101,7 @@ def b58decode_check(v):
 
 
 def main():
+    #type: () -> None
     '''Base58 encode or decode FILE, or standard input, to standard output.'''
 
     import sys
@@ -119,12 +126,19 @@ def main():
         help='append a checksum before encoding')
 
     args = parser.parse_args()
-    fun = {
-        (False, False): b58encode,
-        (False, True): b58encode_check,
-        (True, False): b58decode,
-        (True, True): b58decode_check
-    }[(args.decode, args.check)]
+
+    def fun(data):
+        #type: (bytes) -> Union[bytes, str]
+        if args.decode:
+            if args.check:
+                return b58decode_check(data)
+            else:
+                return b58decode(data)
+        else:
+            if args.check:
+                return b58encode_check(data)
+            else:
+                return b58encode(data)
 
     data = buffer(args.file).read().rstrip(b'\n')
 

@@ -5,6 +5,12 @@ python:
     - "3.4"
     - "3.5"
     - "pypy"
+matrix:
+  include:
+    - language: python
+      python: '3.5'
+      os: linux
+      script: pip install mypy --upgrade && python -m mypy . --check-untyped-defs --ignore-missing-imports --disallow-untyped-calls --disallow-untyped-defs
 install:
     - pip install -r test-requirements.txt
 script:
