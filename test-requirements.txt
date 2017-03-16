@@ -3,3 +3,4 @@ PyHamcrest
 mock
 matchmock
 coveralls
+typing

@@ -14,6 +14,7 @@ setup(
             'base58 = base58:main'
         ]
     },
+    install_requires=['typing'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
