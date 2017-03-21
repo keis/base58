@@ -27,13 +27,13 @@ else:  # python3
     buffer = lambda s: s.buffer
 
 
-def b58encode_int(i):
+def b58encode_int(i, default_one=True):
     '''Encode an integer using Base58'''
     string = ""
     while i:
         i, idx = divmod(i, 58)
         string = alphabet[idx:idx + 1] + string
-    if not string:
+    if not string and default_one:
         string = alphabet[0:1]
     return string
 
@@ -53,12 +53,9 @@ def b58encode(v):
         acc += p * c
         p = p << 8
 
-    result = ''
-    while acc > 0:
-        acc, mod = divmod(acc, 58)
-        result += alphabet[mod]
+    result = b58encode_int(acc, default_one=False)
 
-    return (result + alphabet[0] * (origlen - newlen))[::-1]
+    return (alphabet[0] * (origlen - newlen) + result)
 
 
 def b58decode_int(v):
@@ -83,10 +80,7 @@ def b58decode(v):
     v = v.lstrip(alphabet[0])
     newlen = len(v)
 
-    p, acc = 1, 0
-    for c in v[::-1]:
-        acc += p * alphabet.index(c)
-        p *= 58
+    acc = b58decode_int(v)
 
     result = []
     while acc > 0:
