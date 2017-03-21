@@ -27,13 +27,12 @@ else:  # python3
     buffer = lambda s: s.buffer
 
 
-def int_to_b58(i):
+def b58encode_int(i):
     '''Encode an integer using Base58'''
     string = ""
     while i:
-        idx = i % 58
+        i, idx = divmod(i, 58)
         string = alphabet[idx:idx + 1] + string
-        i //= 58
     if not string:
         string = alphabet[0:1]
     return string
@@ -62,7 +61,7 @@ def b58encode(v):
     return (result + alphabet[0] * (origlen - newlen))[::-1]
 
 
-def b58_to_int(v):
+def b58decode_int(v):
     '''Decode a Base58 encoded string as an integer'''
 
     if not isinstance(v, str):
