@@ -49,7 +49,7 @@ def b58encode(v):
     newlen = len(v)
 
     p, acc = 1, 0
-    for c in iseq(v[::-1]):
+    for c in iseq(reversed(v)):
         acc += p * c
         p = p << 8
 
@@ -87,7 +87,7 @@ def b58decode(v):
         acc, mod = divmod(acc, 256)
         result.append(mod)
 
-    return (bseq(result) + b'\0' * (origlen - newlen))[::-1]
+    return (b'\0' * (origlen - newlen) + bseq(reversed(result)))
 
 
 def b58encode_check(v):
