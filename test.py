@@ -1,7 +1,7 @@
 from contextlib import contextmanager
 from itertools import product
 from hamcrest import assert_that, equal_to, instance_of
-from base58 import b58encode, b58decode, b58encode_check, b58decode_check
+from base58 import b58encode, b58decode, b58encode_check, b58decode_check, b58encode_int, b58decode_int, alphabet
 
 
 class RaisesContext(object):
@@ -83,3 +83,14 @@ def test_input_should_be_bytes():
      data = u'3vQB7B6MrGQZaxCuFg4oH'
      with assert_raises(TypeError):
          b58encode(data)
+
+
+def test_simple_integers():
+    for idx, char in enumerate(alphabet):
+        assert_that(b58decode_int(char), equal_to(idx))
+        assert_that(b58encode_int(idx), equal_to(char))
+
+def test_large_integer():
+    number = 0x111d38e5fc9071ffcd20b4a763cc9ae4f252bb4e48fd66a835e252ada93ff480d6dd43dc62a641155a5
+    assert_that(b58decode_int(alphabet), equal_to(number))
+    assert_that(b58encode_int(number), equal_to(alphabet[1:]))

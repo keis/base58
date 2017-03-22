@@ -27,9 +27,19 @@ else:  # python3
     buffer = lambda s: s.buffer
 
 
+def b58encode_int(i, default_one=True):
+    '''Encode an integer using Base58'''
+    string = ""
+    while i:
+        i, idx = divmod(i, 58)
+        string = alphabet[idx:idx + 1] + string
+    if not string and default_one:
+        string = alphabet[0:1]
+    return string
+
+
 def b58encode(v):
     '''Encode a string using Base58'''
-
     if not isinstance(v, bytes):
         raise TypeError("a bytes-like object is required, not '%s'" %
                         type(v).__name__)
@@ -39,16 +49,25 @@ def b58encode(v):
     newlen = len(v)
 
     p, acc = 1, 0
-    for c in iseq(v[::-1]):
+    for c in iseq(reversed(v)):
         acc += p * c
         p = p << 8
 
-    result = ''
-    while acc > 0:
-        acc, mod = divmod(acc, 58)
-        result += alphabet[mod]
+    result = b58encode_int(acc, default_one=False)
 
-    return (result + alphabet[0] * (origlen - newlen))[::-1]
+    return (alphabet[0] * (origlen - newlen) + result)
+
+
+def b58decode_int(v):
+    '''Decode a Base58 encoded string as an integer'''
+
+    if not isinstance(v, str):
+        v = v.decode('ascii')
+
+    decimal = 0
+    for char in v:
+        decimal = decimal * 58 + alphabet.index(char)
+    return decimal
 
 
 def b58decode(v):
@@ -61,17 +80,14 @@ def b58decode(v):
     v = v.lstrip(alphabet[0])
     newlen = len(v)
 
-    p, acc = 1, 0
-    for c in v[::-1]:
-        acc += p * alphabet.index(c)
-        p *= 58
+    acc = b58decode_int(v)
 
     result = []
     while acc > 0:
         acc, mod = divmod(acc, 256)
         result.append(mod)
 
-    return (bseq(result) + b'\0' * (origlen - newlen))[::-1]
+    return (b'\0' * (origlen - newlen) + bseq(reversed(result)))
 
 
 def b58encode_check(v):
