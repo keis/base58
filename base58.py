@@ -9,7 +9,7 @@ with the bitcoin network.
 # forum post by Gavin Andresen, so direct your praise to him.
 # This module adds shiny packaging and support for python3.
 
-__version__ = '0.2.3'
+__version__ = '0.2.5'
 
 from hashlib import sha256
 
@@ -29,12 +29,12 @@ else:  # python3
 
 def b58encode_int(i, default_one=True):
     '''Encode an integer using Base58'''
+    if not i and default_one:
+        return alphabet[0]
     string = ""
     while i:
         i, idx = divmod(i, 58)
-        string = alphabet[idx:idx + 1] + string
-    if not string and default_one:
-        string = alphabet[0:1]
+        string = alphabet[idx] + string
     return string
 
 

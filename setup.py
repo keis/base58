@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='base58',
     py_modules=['base58'],
-    version='0.2.4',
+    version='0.2.5',
     description='Base58 and Base58Check implementation',
     author='David Keijser',
     author_email='keijser@gmail.com',
@@ -20,6 +20,7 @@ setup(
         'Natural Language :: English',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3'
+        'Programming Language :: Python :: 2',
     ],
 )
