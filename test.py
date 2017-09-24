@@ -53,8 +53,18 @@ def test_leadingz_decode():
     assert_that(data, equal_to(b'\0\0hello world'))
 
 
-def test_decode_empty():
+def test_leadingz_decode_bytes():
+    data = b58decode(b'11StV1DL6CwTryKyV')
+    assert_that(data, equal_to(b'\0\0hello world'))
+
+
+def test_empty_decode():
     data = b58decode('1')
+    assert_that(data, equal_to(b'\0'))
+
+
+def test_empty_decode_bytes():
+    data = b58decode(b'1')
     assert_that(data, equal_to(b'\0'))
 
 
