@@ -40,8 +40,12 @@ def b58encode_int(i, default_one=True):
 
 def b58encode(v):
     '''Encode a string using Base58'''
+
+    if isinstance(v, str):
+        v = v.encode('ascii')
+        
     if not isinstance(v, bytes):
-        raise TypeError("a bytes-like object is required, not '%s'" %
+        raise TypeError("a bytes-like object is required (also str), not '%s'" %
                         type(v).__name__)
 
     origlen = len(v)
