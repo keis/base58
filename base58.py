@@ -73,8 +73,12 @@ def b58decode_int(v):
 def b58decode(v):
     '''Decode a Base58 encoded string'''
 
-    if not isinstance(v, str):
+    if isinstance(v, bytes):
         v = v.decode('ascii')
+
+    if not isinstance(v, str):
+        raise TypeError("a string-like object is required (also bytes), not '%s'" %
+                        type(v).__name__)
 
     origlen = len(v)
     v = v.lstrip(alphabet[0])
