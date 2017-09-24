@@ -28,13 +28,28 @@ def test_simple_encode():
     assert_that(data, equal_to('StV1DL6CwTryKyV'))
 
 
+def test_simple_encode_str():
+    data = b58encode('hello world')
+    assert_that(data, equal_to('StV1DL6CwTryKyV'))
+
+
 def test_leadingz_encode():
     data = b58encode(b'\0\0hello world')
     assert_that(data, equal_to('11StV1DL6CwTryKyV'))
 
 
-def test_encode_empty():
+def test_leadingz_encode_str():
+    data = b58encode('\0\0hello world')
+    assert_that(data, equal_to('11StV1DL6CwTryKyV'))
+
+
+def test_empty_encode():
     data = b58encode(b'')
+    assert_that(data, equal_to(''))
+
+
+def test_empty_encode_str():
+    data = b58encode('')
     assert_that(data, equal_to(''))
 
 
