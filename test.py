@@ -64,6 +64,24 @@ def test_check_identity():
     assert_that(out, equal_to(data))
 
 
+def test_check_reverse_identity():
+    data = 'StV1DL6CwTryKyV'
+    out = b58encode_check(b58decode_check(data))
+    assert_that(out, equal_to(data))
+
+
+def test_check_leadingz_identity():
+    data = b'\0\0hello world'
+    out = b58decode_check(b58encode_check(data))
+    assert_that(out, equal_to(data))
+
+
+def test_check_leadingz_reverse_identity():
+    data = '11StV1DL6CwTryKyV'
+    out = b58encode_check(b58decode_check(data))
+    assert_that(out, equal_to(data))
+
+
 def test_check_failure():
     data = '3vQB7B6MrGQZaxCuFg4oH'
     with assert_raises(ValueError):
