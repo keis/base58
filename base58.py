@@ -32,9 +32,10 @@ def b58encode_int(i, default_one=True):
     if not i and default_one:
         return alphabet[0]
     string = ""
-    while i:
+    while i >= 58:
         i, idx = divmod(i, 58)
         string = alphabet[idx] + string
+    string = alphabet[i] + string
     return string
 
 
@@ -83,9 +84,10 @@ def b58decode(v):
     acc = b58decode_int(v)
 
     result = []
-    while acc > 0:
+    while acc >= 256:
         acc, mod = divmod(acc, 256)
         result.append(mod)
+    result.append(acc)
 
     return (b'\0' * (origlen - newlen) + bseq(reversed(result)))
 
