@@ -44,9 +44,9 @@ def b58encode(v):
         raise TypeError("a bytes-like object is required, not '%s'" %
                         type(v).__name__)
 
-    origlen = len(v)
+    nPad = len(v)
     v = v.lstrip(b'\0')
-    newlen = len(v)
+    nPad -= len(v)
 
     p, acc = 1, 0
     for c in iseq(reversed(v)):
@@ -55,7 +55,7 @@ def b58encode(v):
 
     result = b58encode_int(acc, default_one=False)
 
-    return (alphabet[0] * (origlen - newlen) + result)
+    return (alphabet[0] * nPad + result)
 
 
 def b58decode_int(v):
