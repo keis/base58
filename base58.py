@@ -73,7 +73,7 @@ def b58decode_int(v):
 def b58decode(v):
     '''Decode a Base58 encoded string'''
 
-    if isinstance(v, bytes):
+    if not isinstance(v, str):
         v = v.decode('ascii')
 
     if not isinstance(v, str):
