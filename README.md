@@ -43,6 +43,17 @@ bitcoin network.
     ValueError: Invalid checksum
 
 
+## Install the command from the snap store
+
+In any of the [supported Linux distros](https://snapcraft.io/docs/core/install):
+
+```bash
+sudo snap install base58 --edge
+```
+
+(Note that this is an experimental and unstable release, at the moment)
+
+
 [pypi-image]: https://img.shields.io/pypi/v/base58.svg?style=flat
 [pypi-downloads-image]: https://img.shields.io/pypi/dm/base58.svg?style=flat
 [travis-image]: https://img.shields.io/travis/keis/base58.svg?style=flat
