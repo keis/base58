@@ -9,22 +9,26 @@ with the bitcoin network.
 # forum post by Gavin Andresen, so direct your praise to him.
 # This module adds shiny packaging and support for python3.
 
-__version__ = '0.2.5'
-
 from hashlib import sha256
+
+__version__ = '0.2.5'
 
 # 58 character alphabet used
 alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 
 
 if bytes == str:  # python2
-    iseq = lambda s: map(ord, s)
-    bseq = lambda s: ''.join(map(chr, s))
-    buffer = lambda s: s
+    iseq, bseq, buffer = (
+        lambda s: map(ord, s),
+        lambda s: ''.join(map(chr, s)),
+        lambda s: s,
+    )
 else:  # python3
-    iseq = lambda s: s
-    bseq = bytes
-    buffer = lambda s: s.buffer
+    iseq, bseq, buffer = (
+        lambda s: s,
+        bytes,
+        lambda s: s.buffer,
+    )
 
 
 def b58encode_int(i, default_one=True):
@@ -77,8 +81,9 @@ def b58decode(v):
         v = v.decode('ascii')
 
     if not isinstance(v, str):
-        raise TypeError("a string-like object is required (also bytes), not '%s'" %
-                        type(v).__name__)
+        raise TypeError(
+            "a string-like object is required (also bytes), not '%s'" %
+            type(v).__name__)
 
     origlen = len(v)
     v = v.lstrip(alphabet[0])
