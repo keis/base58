@@ -14,7 +14,7 @@ from hashlib import sha256
 __version__ = '0.2.5'
 
 # 58 character alphabet used
-alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
+alphabet = b'123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 
 
 if bytes == str:  # python2
@@ -31,22 +31,33 @@ else:  # python3
     )
 
 
+def scrub_input(v):
+    if isinstance(v, str) and not isinstance(v, bytes):
+        v = v.encode('ascii')
+
+    if not isinstance(v, bytes):
+        raise TypeError(
+            "a bytes-like object is required (also str), not '%s'" %
+            type(v).__name__)
+
+    return v
+
+
 def b58encode_int(i, default_one=True):
     '''Encode an integer using Base58'''
     if not i and default_one:
-        return alphabet[0]
-    string = ""
+        return alphabet[0:1]
+    string = b""
     while i:
         i, idx = divmod(i, 58)
-        string = alphabet[idx] + string
+        string = alphabet[idx:idx+1] + string
     return string
 
 
 def b58encode(v):
     '''Encode a string using Base58'''
-    if not isinstance(v, bytes):
-        raise TypeError("a bytes-like object is required, not '%s'" %
-                        type(v).__name__)
+
+    v = scrub_input(v)
 
     nPad = len(v)
     v = v.lstrip(b'\0')
@@ -59,14 +70,13 @@ def b58encode(v):
 
     result = b58encode_int(acc, default_one=False)
 
-    return (alphabet[0] * nPad + result)
+    return (alphabet[0:1] * nPad + result)
 
 
 def b58decode_int(v):
     '''Decode a Base58 encoded string as an integer'''
 
-    if not isinstance(v, str):
-        v = v.decode('ascii')
+    v = scrub_input(v)
 
     decimal = 0
     for char in v:
@@ -77,16 +87,10 @@ def b58decode_int(v):
 def b58decode(v):
     '''Decode a Base58 encoded string'''
 
-    if not isinstance(v, str):
-        v = v.decode('ascii')
-
-    if not isinstance(v, str):
-        raise TypeError(
-            "a string-like object is required (also bytes), not '%s'" %
-            type(v).__name__)
+    v = scrub_input(v)
 
     origlen = len(v)
-    v = v.lstrip(alphabet[0])
+    v = v.lstrip(alphabet[0:1])
     newlen = len(v)
 
     acc = b58decode_int(v)
