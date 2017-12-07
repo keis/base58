@@ -1,4 +1,7 @@
-nose
+pytest
+pytest-pep8
+pytest-flakes
+pytest-cov
 PyHamcrest
 mock
 matchmock

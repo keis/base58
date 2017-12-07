@@ -2,7 +2,6 @@ language: python
 sudo: false
 python:
     - "2.7"
-    - "3.3"
     - "3.4"
     - "3.5"
     - "3.6"
@@ -11,6 +10,6 @@ python:
 install:
     - pip install -r test-requirements.txt
 script:
-    nosetests --with-coverage --cover-package=base58
+    pytest --pep8 --flakes --cov=base58 .
 after_success:
     coveralls
