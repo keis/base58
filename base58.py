@@ -151,7 +151,7 @@ def main():
         (True, True): b58decode_check
     }[(args.decode, args.check)]
 
-    data = buffer(args.file).read().rstrip(b'\n')
+    data = buffer(args.file).read()
 
     try:
         result = fun(data)
