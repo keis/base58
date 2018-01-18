@@ -6,6 +6,16 @@ from base58 import (
     b58decode_int, alphabet)
 
 
+if bytes == str:
+    bytes_from_char = (
+        lambda c: c
+    )
+else:
+    bytes_from_char = (
+        lambda c: bytes([c])
+    )
+
+
 class RaisesContext(object):
     pass
 
@@ -27,17 +37,17 @@ def assert_raises(matcher=None, message=''):
 
 def test_simple_encode():
     data = b58encode(b'hello world')
-    assert_that(data, equal_to('StV1DL6CwTryKyV'))
+    assert_that(data, equal_to(b'StV1DL6CwTryKyV'))
 
 
 def test_leadingz_encode():
     data = b58encode(b'\0\0hello world')
-    assert_that(data, equal_to('11StV1DL6CwTryKyV'))
+    assert_that(data, equal_to(b'11StV1DL6CwTryKyV'))
 
 
 def test_encode_empty():
     data = b58encode(b'')
-    assert_that(data, equal_to(''))
+    assert_that(data, equal_to(b''))
 
 
 def test_simple_decode():
@@ -91,14 +101,9 @@ def test_round_trips():
             assert_that(bytes_in, equal_to(bytes_out))
 
 
-def test_input_should_be_bytes():
-    data = u'3vQB7B6MrGQZaxCuFg4oH'
-    with assert_raises(TypeError):
-        b58encode(data)
-
-
 def test_simple_integers():
     for idx, char in enumerate(alphabet):
+        char = bytes_from_char(char)
         assert_that(b58decode_int(char), equal_to(idx))
         assert_that(b58encode_int(idx), equal_to(char))
 
