@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='base58',
     py_modules=['base58'],
-    version='0.2.5',
+    version='1.0.0',
     description='Base58 and Base58Check implementation',
     author='David Keijser',
     author_email='keijser@gmail.com',
