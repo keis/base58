@@ -1,5 +1,8 @@
 ## Changelog
 
+### v1.0.1 / 2018-09-25
+- [#31](https://github.com/keis/base58/pull/31) Include tests in PyPI tarball (@dotlambda)
+
 ### v1.0.0 / 2018-04-20
 - [#27](https://github.com/keis/base58/pull/27) Use bytes for both input and output (@keis)
 - [#25](https://github.com/keis/base58/pull/25) Do not strip newline from input to cli (@keis)
