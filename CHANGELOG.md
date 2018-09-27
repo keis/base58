@@ -1,5 +1,8 @@
 ## Changelog
 
+### v1.0.2 / 2018-09-27
+- [#34](https://github.com/keis/base58/pull/34) Add bumpversion config (@keis)
+
 ### v1.0.1 / 2018-09-25
 - [#31](https://github.com/keis/base58/pull/31) Include tests in PyPI tarball (@dotlambda)
 

@@ -11,7 +11,7 @@ with the bitcoin network.
 
 from hashlib import sha256
 
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 
 # 58 character alphabet used
 alphabet = b'123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
