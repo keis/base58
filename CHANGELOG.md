@@ -1,5 +1,8 @@
 ## Changelog
 
+### v1.0.3 / 2018-12-28
+- [#37](https://github.com/keis/base58/pull/37) Update base58.py (@pdelteil)
+
 ### v1.0.2 / 2018-09-27
 - [#34](https://github.com/keis/base58/pull/34) Add bumpversion config (@keis)
 
