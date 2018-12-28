@@ -56,7 +56,7 @@ def b58encode_int(i, default_one=True):
 
 def b58encode(v):
     '''Encode a string using Base58'''
-
+   
     v = scrub_input(v)
 
     nPad = len(v)
@@ -75,7 +75,7 @@ def b58encode(v):
 
 def b58decode_int(v):
     '''Decode a Base58 encoded string as an integer'''
-
+    v = v.rstrip()
     v = scrub_input(v)
 
     decimal = 0
@@ -86,7 +86,7 @@ def b58decode_int(v):
 
 def b58decode(v):
     '''Decode a Base58 encoded string'''
-
+    v = v.rstrip()
     v = scrub_input(v)
 
     origlen = len(v)
