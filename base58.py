@@ -56,7 +56,6 @@ def b58encode_int(i, default_one=True):
 
 def b58encode(v):
     '''Encode a string using Base58'''
-   
     v = scrub_input(v)
 
     nPad = len(v)
