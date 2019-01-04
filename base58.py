@@ -33,6 +33,7 @@ else:  # python3
 
 def scrub_input(v):
     if isinstance(v, str) and not isinstance(v, bytes):
+        v = v.strip()
         v = v.encode('ascii')
 
     if not isinstance(v, bytes):
@@ -74,7 +75,6 @@ def b58encode(v):
 
 def b58decode_int(v):
     '''Decode a Base58 encoded string as an integer'''
-    v = v.rstrip()
     v = scrub_input(v)
 
     decimal = 0
@@ -85,7 +85,6 @@ def b58decode_int(v):
 
 def b58decode(v):
     '''Decode a Base58 encoded string'''
-    v = v.rstrip()
     v = scrub_input(v)
 
     origlen = len(v)
