@@ -3,7 +3,7 @@ from itertools import product
 from hamcrest import assert_that, equal_to, instance_of
 from base58 import (
     b58encode, b58decode, b58encode_check, b58decode_check, b58encode_int,
-    b58decode_int, alphabet)
+    b58decode_int, BITCOIN_ALPHABET)
 
 
 if bytes == str:
@@ -102,7 +102,7 @@ def test_round_trips():
 
 
 def test_simple_integers():
-    for idx, char in enumerate(alphabet):
+    for idx, char in enumerate(BITCOIN_ALPHABET):
         char = bytes_from_char(char)
         assert_that(b58decode_int(char), equal_to(idx))
         assert_that(b58encode_int(idx), equal_to(char))
@@ -110,5 +110,5 @@ def test_simple_integers():
 
 def test_large_integer():
     number = 0x111d38e5fc9071ffcd20b4a763cc9ae4f252bb4e48fd66a835e252ada93ff480d6dd43dc62a641155a5  # noqa
-    assert_that(b58decode_int(alphabet), equal_to(number))
-    assert_that(b58encode_int(number), equal_to(alphabet[1:]))
+    assert_that(b58decode_int(BITCOIN_ALPHABET), equal_to(number))
+    assert_that(b58encode_int(number), equal_to(BITCOIN_ALPHABET[1:]))

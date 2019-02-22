@@ -14,7 +14,8 @@ from hashlib import sha256
 __version__ = '1.0.3'
 
 # 58 character alphabet used
-alphabet = b'123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
+BITCOIN_ALPHABET = b'123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
+RIPPLE_ALPHABET = b'rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz'
 
 
 if bytes == str:  # python2
@@ -38,8 +39,10 @@ def scrub_input(v):
     return v
 
 
-def b58encode_int(i, default_one=True):
-    '''Encode an integer using Base58'''
+def b58encode_int(i, default_one=True, alphabet=BITCOIN_ALPHABET):
+    """
+    Encode an integer using Base58
+    """
     if not i and default_one:
         return alphabet[0:1]
     string = b""
@@ -49,8 +52,10 @@ def b58encode_int(i, default_one=True):
     return string
 
 
-def b58encode(v):
-    '''Encode a string using Base58'''
+def b58encode(v, alphabet=BITCOIN_ALPHABET):
+    """
+    Encode a string using Base58
+    """
     v = scrub_input(v)
 
     nPad = len(v)
@@ -61,14 +66,14 @@ def b58encode(v):
     for c in iseq(reversed(v)):
         acc += p * c
         p = p << 8
-
-    result = b58encode_int(acc, default_one=False)
-
-    return (alphabet[0:1] * nPad + result)
+    result = b58encode_int(acc, default_one=False, alphabet=alphabet)
+    return alphabet[0:1] * nPad + result
 
 
-def b58decode_int(v):
-    '''Decode a Base58 encoded string as an integer'''
+def b58decode_int(v, alphabet=BITCOIN_ALPHABET):
+    """
+    Decode a Base58 encoded string as an integer
+    """
     v = v.rstrip()
     v = scrub_input(v)
 
@@ -78,8 +83,10 @@ def b58decode_int(v):
     return decimal
 
 
-def b58decode(v):
-    '''Decode a Base58 encoded string'''
+def b58decode(v, alphabet=BITCOIN_ALPHABET):
+    """
+    Decode a Base58 encoded string
+    """
     v = v.rstrip()
     v = scrub_input(v)
 
@@ -87,27 +94,29 @@ def b58decode(v):
     v = v.lstrip(alphabet[0:1])
     newlen = len(v)
 
-    acc = b58decode_int(v)
+    acc = b58decode_int(v, alphabet=alphabet)
 
     result = []
     while acc > 0:
         acc, mod = divmod(acc, 256)
         result.append(mod)
 
-    return (b'\0' * (origlen - newlen) + bseq(reversed(result)))
+    return b'\0' * (origlen - newlen) + bseq(reversed(result))
 
 
-def b58encode_check(v):
-    '''Encode a string using Base58 with a 4 character checksum'''
+def b58encode_check(v, alphabet=BITCOIN_ALPHABET):
+    """
+    Encode a string using Base58 with a 4 character checksum
+    """
 
     digest = sha256(sha256(v).digest()).digest()
-    return b58encode(v + digest[:4])
+    return b58encode(v + digest[:4], alphabet=alphabet)
 
 
-def b58decode_check(v):
+def b58decode_check(v, alphabet=BITCOIN_ALPHABET):
     '''Decode and verify the checksum of a Base58 encoded string'''
 
-    result = b58decode(v)
+    result = b58decode(v, alphabet=alphabet)
     result, check = result[:-4], result[-4:]
     digest = sha256(sha256(result).digest()).digest()
 
