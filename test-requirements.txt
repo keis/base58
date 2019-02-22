@@ -1,7 +1,7 @@
 pytest
 pytest-pep8
 pytest-flakes
-pytest-cov
+pytest-cov<=2.6.0
 PyHamcrest
 mock
 matchmock
