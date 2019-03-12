@@ -1,9 +1,7 @@
-# Quick fix: https://github.com/pytest-dev/pytest/issues/4608
-pytest==4.02
+pytest
 pytest-pep8
 pytest-flakes
-# Open issue: https://github.com/z4r/python-coveralls/issues/66
-pytest-cov<=2.6.0
+pytest-cov
 PyHamcrest
 mock
 matchmock
