@@ -1,6 +1,7 @@
 pytest
 pytest-pep8
 pytest-flakes
+# Open issue: https://github.com/z4r/python-coveralls/issues/66
 pytest-cov<=2.6.0
 PyHamcrest
 mock
