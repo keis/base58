@@ -6,7 +6,7 @@
 [![Coverage Status][coveralls-image]](https://coveralls.io/r/keis/base58?branch=master)
 
 Base58 and Base58Check implementation compatible with what is used by the
-bitcoin network.
+bitcoin network. Any other alternative alphabet (like the Ripple one) can be used.
 
 
 ## Command line usage
@@ -41,6 +41,11 @@ bitcoin network.
       File "base58.py", line 89, in b58decode_check
         raise ValueError("Invalid checksum")
     ValueError: Invalid checksum
+    # Use another alphabet. Here, using the built-in Ripple alphabet.
+    >>> base58.b58encode(b'hello world', alphabet=base58.RIPPLE_ALPHABET)
+    'StVrDLaUATiyKyV'
+    >>> base58.b58decode(b'StVrDLaUATiyKyV', alphabet=base58.RIPPLE_ALPHABET)
+    b'hello world'
 
 
 [pypi-image]: https://img.shields.io/pypi/v/base58.svg?style=flat
