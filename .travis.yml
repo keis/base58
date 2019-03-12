@@ -6,8 +6,8 @@ python:
     - "3.4"
     - "3.5"
     - "3.6"
-    - "pypy"
-    - "pypy3"
+    - "pypy2.7-6.0"
+    - "pypy3.5-6.0"
 install:
     - pip install -r test-requirements.txt
 script:
