@@ -3,7 +3,7 @@ from itertools import product
 from hamcrest import assert_that, equal_to, instance_of
 from base58 import (
     b58encode, b58decode, b58encode_check, b58decode_check, b58encode_int,
-    b58decode_int, BITCOIN_ALPHABET)
+    b58decode_int, BITCOIN_ALPHABET, alphabet)
 
 
 if bytes == str:
@@ -112,3 +112,7 @@ def test_large_integer():
     number = 0x111d38e5fc9071ffcd20b4a763cc9ae4f252bb4e48fd66a835e252ada93ff480d6dd43dc62a641155a5  # noqa
     assert_that(b58decode_int(BITCOIN_ALPHABET), equal_to(number))
     assert_that(b58encode_int(number), equal_to(BITCOIN_ALPHABET[1:]))
+
+
+def test_alphabet_alias_exists_and_equals_bitcoin_alphabet():
+    assert_that(alphabet, BITCOIN_ALPHABET)
