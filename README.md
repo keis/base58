@@ -28,11 +28,11 @@ bitcoin network. Any other alternative alphabet (like the Ripple one) can be use
 
     >>> import base58
     >>> base58.b58encode(b'hello world')
-    'StV1DL6CwTryKyV'
+    b'StV1DL6CwTryKyV'
     >>> base58.b58decode(b'StV1DL6CwTryKyV')
     b'hello world'
     >>> base58.b58encode_check(b'hello world')
-    '3vQB7B6MrGQZaxCuFg4oh'
+    b'3vQB7B6MrGQZaxCuFg4oh'
     >>> base58.b58decode_check(b'3vQB7B6MrGQZaxCuFg4oh')
     b'hello world'
     >>> base58.b58decode_check(b'4vQB7B6MrGQZaxCuFg4oh')
@@ -43,7 +43,7 @@ bitcoin network. Any other alternative alphabet (like the Ripple one) can be use
     ValueError: Invalid checksum
     # Use another alphabet. Here, using the built-in Ripple alphabet.
     >>> base58.b58encode(b'hello world', alphabet=base58.RIPPLE_ALPHABET)
-    'StVrDLaUATiyKyV'
+    b'StVrDLaUATiyKyV'
     >>> base58.b58decode(b'StVrDLaUATiyKyV', alphabet=base58.RIPPLE_ALPHABET)
     b'hello world'
 
