@@ -23,7 +23,7 @@ alphabet = BITCOIN_ALPHABET
 
 
 def scrub_input(v):
-    if isinstance(v, str) and not isinstance(v, bytes):
+    if isinstance(v, str):
         v = v.encode('ascii')
 
     return v
