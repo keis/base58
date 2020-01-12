@@ -6,16 +6,6 @@ from base58 import (
     b58decode_int, BITCOIN_ALPHABET, alphabet)
 
 
-if bytes == str:
-    bytes_from_char = (
-        lambda c: c
-    )
-else:
-    bytes_from_char = (
-        lambda c: bytes([c])
-    )
-
-
 class RaisesContext(object):
     pass
 
@@ -103,7 +93,7 @@ def test_round_trips():
 
 def test_simple_integers():
     for idx, char in enumerate(BITCOIN_ALPHABET):
-        char = bytes_from_char(char)
+        char = bytes([char])
         assert_that(b58decode_int(char), equal_to(idx))
         assert_that(b58encode_int(idx), equal_to(char))
 
