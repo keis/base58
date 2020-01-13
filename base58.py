@@ -22,22 +22,8 @@ RIPPLE_ALPHABET = b'rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz'
 alphabet = BITCOIN_ALPHABET
 
 
-if bytes == str:  # python2
-    iseq, bseq, buffer = (
-        lambda s: map(ord, s),
-        lambda s: ''.join(map(chr, s)),
-        lambda s: s,
-    )
-else:  # python3
-    iseq, bseq, buffer = (
-        lambda s: s,
-        bytes,
-        lambda s: s.buffer,
-    )
-
-
 def scrub_input(v):
-    if isinstance(v, str) and not isinstance(v, bytes):
+    if isinstance(v, str):
         v = v.encode('ascii')
 
     return v
@@ -67,7 +53,7 @@ def b58encode(v, alphabet=BITCOIN_ALPHABET):
     nPad -= len(v)
 
     p, acc = 1, 0
-    for c in iseq(reversed(v)):
+    for c in reversed(v):
         acc += p * c
         p = p << 8
     result = b58encode_int(acc, default_one=False, alphabet=alphabet)
@@ -105,7 +91,7 @@ def b58decode(v, alphabet=BITCOIN_ALPHABET):
         acc, mod = divmod(acc, 256)
         result.append(mod)
 
-    return b'\0' * (origlen - newlen) + bseq(reversed(result))
+    return b'\0' * (origlen - newlen) + bytes(reversed(result))
 
 
 def b58encode_check(v, alphabet=BITCOIN_ALPHABET):
@@ -136,7 +122,7 @@ def main():
     import sys
     import argparse
 
-    stdout = buffer(sys.stdout)
+    stdout = sys.stdout.buffer
 
     parser = argparse.ArgumentParser(description=main.__doc__)
     parser.add_argument(
@@ -162,15 +148,12 @@ def main():
         (True, True): b58decode_check
     }[(args.decode, args.check)]
 
-    data = buffer(args.file).read()
+    data = args.file.buffer.read()
 
     try:
         result = fun(data)
     except Exception as e:
         sys.exit(e)
-
-    if not isinstance(result, bytes):
-        result = result.encode('ascii')
 
     stdout.write(result)
 
