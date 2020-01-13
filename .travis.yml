@@ -16,7 +16,6 @@ script:
         pip install mypy &&
         mypy .
       fi
-    - mypy .
     - pytest --flake8 --cov=base58 .
 after_success:
     coveralls
