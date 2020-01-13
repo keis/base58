@@ -9,6 +9,7 @@ python:
 install:
     - pip install -r test-requirements.txt
 script:
-    pytest --pep8 --flakes --cov=base58 .
+    - mypy .
+    - pytest --flake8 --cov=base58 .
 after_success:
     coveralls

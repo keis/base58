@@ -10,6 +10,7 @@ with the bitcoin network.
 # This module adds shiny packaging and support for python3.
 
 from hashlib import sha256
+from typing import Union
 
 __version__ = '1.0.3'
 
@@ -22,14 +23,16 @@ RIPPLE_ALPHABET = b'rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz'
 alphabet = BITCOIN_ALPHABET
 
 
-def scrub_input(v):
+def scrub_input(v: Union[str, bytes]) -> bytes:
     if isinstance(v, str):
         v = v.encode('ascii')
 
     return v
 
 
-def b58encode_int(i, default_one=True, alphabet=BITCOIN_ALPHABET):
+def b58encode_int(
+    i: int, default_one: bool = True, alphabet: bytes = BITCOIN_ALPHABET
+) -> bytes:
     """
     Encode an integer using Base58
     """
@@ -42,7 +45,9 @@ def b58encode_int(i, default_one=True, alphabet=BITCOIN_ALPHABET):
     return string
 
 
-def b58encode(v, alphabet=BITCOIN_ALPHABET):
+def b58encode(
+    v: Union[str, bytes], alphabet: bytes = BITCOIN_ALPHABET
+) -> bytes:
     """
     Encode a string using Base58
     """
@@ -60,7 +65,9 @@ def b58encode(v, alphabet=BITCOIN_ALPHABET):
     return alphabet[0:1] * nPad + result
 
 
-def b58decode_int(v, alphabet=BITCOIN_ALPHABET):
+def b58decode_int(
+    v: Union[str, bytes], alphabet: bytes = BITCOIN_ALPHABET
+) -> int:
     """
     Decode a Base58 encoded string as an integer
     """
@@ -73,7 +80,9 @@ def b58decode_int(v, alphabet=BITCOIN_ALPHABET):
     return decimal
 
 
-def b58decode(v, alphabet=BITCOIN_ALPHABET):
+def b58decode(
+    v: Union[str, bytes], alphabet: bytes = BITCOIN_ALPHABET
+) -> bytes:
     """
     Decode a Base58 encoded string
     """
@@ -94,7 +103,7 @@ def b58decode(v, alphabet=BITCOIN_ALPHABET):
     return b'\0' * (origlen - newlen) + bytes(reversed(result))
 
 
-def b58encode_check(v, alphabet=BITCOIN_ALPHABET):
+def b58encode_check(v: bytes, alphabet: bytes = BITCOIN_ALPHABET) -> bytes:
     """
     Encode a string using Base58 with a 4 character checksum
     """
@@ -103,7 +112,9 @@ def b58encode_check(v, alphabet=BITCOIN_ALPHABET):
     return b58encode(v + digest[:4], alphabet=alphabet)
 
 
-def b58decode_check(v, alphabet=BITCOIN_ALPHABET):
+def b58decode_check(
+    v: Union[str, bytes], alphabet: bytes = BITCOIN_ALPHABET
+) -> bytes:
     '''Decode and verify the checksum of a Base58 encoded string'''
 
     result = b58decode(v, alphabet=alphabet)

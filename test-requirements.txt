@@ -1,6 +1,6 @@
 pytest
-pytest-pep8
-pytest-flakes
+pytest-flake8
 pytest-cov
 PyHamcrest
 coveralls
+mypy
