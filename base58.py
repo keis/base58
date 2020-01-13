@@ -155,9 +155,6 @@ def main():
     except Exception as e:
         sys.exit(e)
 
-    if not isinstance(result, bytes):
-        result = result.encode('ascii')
-
     stdout.write(result)
 
 
