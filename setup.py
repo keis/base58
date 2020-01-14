@@ -4,7 +4,7 @@ setup(
     name='base58',
     packages=['base58'],
     package_data={'base58': ['py.typed']},
-    version='1.0.3',
+    version='2.0.0',
     description='Base58 and Base58Check implementation',
     author='David Keijser',
     author_email='keijser@gmail.com',

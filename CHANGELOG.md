@@ -1,5 +1,16 @@
 ## Changelog
 
+### v2.0.0 / 2020-01-14
+- [#47](https://github.com/keis/base58/pull/47) Distribute type data (PEP 561) (@hukkinj1)
+- [#48](https://github.com/keis/base58/pull/48) Use setup.cfg for mypy conf (@hukkinj1)
+- [#46](https://github.com/keis/base58/pull/46) Allow str input to b58encode_check (@keis)
+- [#44](https://github.com/keis/base58/pull/44) Type annotate public API (@hukkinj1)
+- [#43](https://github.com/keis/base58/pull/43) Drop python 2.7 and 3.4 support (#43) (@hukkinj1)
+- [#42](https://github.com/keis/base58/pull/42) Test py3.7 and py3.8. Set python_requires in setup.py (@hukkinj1)
+- [#41](https://github.com/keis/base58/pull/41) Fix encode functions' return types in README (@hukkinj1)
+- [#40](https://github.com/keis/base58/pull/40) Enhance/add alphabet param (#40) (@dannywillems)
+- [#39](https://github.com/keis/base58/pull/39) accept other bytes-like types (@fametrano)
+
 ### v1.0.3 / 2018-12-28
 - [#37](https://github.com/keis/base58/pull/37) Update base58.py (@pdelteil)
 
