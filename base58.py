@@ -103,10 +103,13 @@ def b58decode(
     return b'\0' * (origlen - newlen) + bytes(reversed(result))
 
 
-def b58encode_check(v: bytes, alphabet: bytes = BITCOIN_ALPHABET) -> bytes:
+def b58encode_check(
+    v: Union[str, bytes], alphabet: bytes = BITCOIN_ALPHABET
+) -> bytes:
     """
     Encode a string using Base58 with a 4 character checksum
     """
+    v = scrub_input(v)
 
     digest = sha256(sha256(v).digest()).digest()
     return b58encode(v + digest[:4], alphabet=alphabet)

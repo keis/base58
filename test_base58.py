@@ -76,6 +76,14 @@ def test_check_identity():
     assert_that(out, equal_to(data))
 
 
+def test_check_str():
+    data = 'hello world'
+    out = b58encode_check(data)
+    assert_that(out, equal_to(b'3vQB7B6MrGQZaxCuFg4oh'))
+    back = b58decode_check(out)
+    assert_that(back, b'hello world')
+
+
 def test_check_failure():
     data = '3vQB7B6MrGQZaxCuFg4oH'
     with assert_raises(ValueError):
