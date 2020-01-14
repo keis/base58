@@ -2,16 +2,18 @@ from setuptools import setup
 
 setup(
     name='base58',
-    py_modules=['base58'],
+    packages=['base58'],
+    package_data={'base58': ['py.typed']},
     version='1.0.3',
     description='Base58 and Base58Check implementation',
     author='David Keijser',
     author_email='keijser@gmail.com',
     url='https://github.com/keis/base58',
     license='MIT',
+    zip_safe=False,  # mypy needs this to be able to find the package
     entry_points={
         'console_scripts': [
-            'base58 = base58:main'
+            'base58 = base58.__main__:main'
         ]
     },
     python_requires=">=3.5",
