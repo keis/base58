@@ -8,6 +8,9 @@
 Base58 and Base58Check implementation compatible with what is used by the
 bitcoin network. Any other alternative alphabet (like the Ripple one) can be used.
 
+Starting from version 2.0.0 **python2 is no longer supported** the 1.x series
+will remain supported but no new features will be added.
+
 
 ## Command line usage
 
