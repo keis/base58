@@ -1,28 +1,8 @@
-from contextlib import contextmanager
 from itertools import product
-from hamcrest import assert_that, equal_to, instance_of
+from hamcrest import assert_that, equal_to, calling, raises
 from base58 import (
     b58encode, b58decode, b58encode_check, b58decode_check, b58encode_int,
     b58decode_int, BITCOIN_ALPHABET, alphabet)
-
-
-class RaisesContext(object):
-    pass
-
-
-@contextmanager
-def assert_raises(matcher=None, message=''):
-    # Short hand for instance_of matcher
-    if isinstance(matcher, (type,)):
-        matcher = instance_of(matcher)
-
-    context = RaisesContext()
-    try:
-        yield context
-    except Exception as e:
-        context.exception = e
-
-    assert_that(context.exception, matcher, message)
 
 
 def test_simple_encode():
@@ -86,8 +66,7 @@ def test_check_str():
 
 def test_check_failure():
     data = '3vQB7B6MrGQZaxCuFg4oH'
-    with assert_raises(ValueError):
-        b58decode_check(data)
+    assert_that(calling(b58decode_check).with_args(data), raises(ValueError))
 
 
 def test_round_trips():
