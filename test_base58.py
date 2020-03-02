@@ -61,7 +61,7 @@ def test_check_str():
     out = b58encode_check(data)
     assert_that(out, equal_to(b'3vQB7B6MrGQZaxCuFg4oh'))
     back = b58decode_check(out)
-    assert_that(back, b'hello world')
+    assert_that(back, equal_to(b'hello world'))
 
 
 def test_check_failure():
@@ -80,9 +80,9 @@ def test_round_trips():
 
 def test_simple_integers():
     for idx, char in enumerate(BITCOIN_ALPHABET):
-        char = bytes([char])
-        assert_that(b58decode_int(char), equal_to(idx))
-        assert_that(b58encode_int(idx), equal_to(char))
+        charbytes = bytes([char])
+        assert_that(b58decode_int(charbytes), equal_to(idx))
+        assert_that(b58encode_int(idx), equal_to(charbytes))
 
 
 def test_large_integer():
@@ -92,4 +92,4 @@ def test_large_integer():
 
 
 def test_alphabet_alias_exists_and_equals_bitcoin_alphabet():
-    assert_that(alphabet, BITCOIN_ALPHABET)
+    assert_that(alphabet, equal_to(BITCOIN_ALPHABET))
