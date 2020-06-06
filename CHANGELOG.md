@@ -1,5 +1,10 @@
 ## Changelog
 
+### v2.0.1 / 2020-06-06
+- [#55](https://github.com/keis/base58/pull/55) Include license file in source distribution (@synapticarbors)
+- [#50](https://github.com/keis/base58/pull/50) Typecheck tests now that hamcrest has typing (@keis)
+- [#49](https://github.com/keis/base58/pull/49) Replace custom exception assert with hamcrest utils (@keis)
+
 ### v2.0.0 / 2020-01-14
 - [#47](https://github.com/keis/base58/pull/47) Distribute type data (PEP 561) (@hukkinj1)
 - [#48](https://github.com/keis/base58/pull/48) Use setup.cfg for mypy conf (@hukkinj1)
@@ -42,3 +47,4 @@
 ### v0.2.2 / 2015-04-09
 - [#3](https://github.com/keis/base58/pull/3) test round trips (@oconnor663)
 - [#2](https://github.com/keis/base58/pull/2) fix encoding of empty string (@keis)
+

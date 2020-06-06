@@ -12,7 +12,7 @@ with the bitcoin network.
 from hashlib import sha256
 from typing import Union
 
-__version__ = '2.0.0'
+__version__ = '2.0.1'
 
 # 58 character alphabet used
 BITCOIN_ALPHABET = \
