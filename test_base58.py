@@ -93,3 +93,8 @@ def test_large_integer():
 
 def test_alphabet_alias_exists_and_equals_bitcoin_alphabet():
     assert_that(alphabet, equal_to(BITCOIN_ALPHABET))
+
+
+def test_invalid_input():
+    data = 'xyz0'   # 0 is not part of the bitcoin base58 alphabet
+    assert_that(calling(b58decode).with_args(data), raises(ValueError))
