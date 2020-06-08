@@ -53,16 +53,14 @@ def b58encode(
     """
     v = scrub_input(v)
 
-    nPad = len(v)
+    origlen = len(v)
     v = v.lstrip(b'\0')
-    nPad -= len(v)
+    newlen = len(v)
 
-    p, acc = 1, 0
-    for c in reversed(v):
-        acc += p * c
-        p = p << 8
+    acc = int.from_bytes(v, byteorder='big')  # first byte is most significant
+
     result = b58encode_int(acc, default_one=False, alphabet=alphabet)
-    return alphabet[0:1] * nPad + result
+    return alphabet[0:1] * (origlen - newlen) + result
 
 
 def b58decode_int(
