@@ -9,8 +9,9 @@ with the bitcoin network.
 # forum post by Gavin Andresen, so direct your praise to him.
 # This module adds shiny packaging and support for python3.
 
+from functools import lru_cache
 from hashlib import sha256
-from typing import Union
+from typing import Mapping, Union
 
 __version__ = '2.0.1'
 
@@ -53,16 +54,20 @@ def b58encode(
     """
     v = scrub_input(v)
 
-    nPad = len(v)
+    origlen = len(v)
     v = v.lstrip(b'\0')
-    nPad -= len(v)
+    newlen = len(v)
 
-    p, acc = 1, 0
-    for c in reversed(v):
-        acc += p * c
-        p = p << 8
+    acc = int.from_bytes(v, byteorder='big')  # first byte is most significant
+
     result = b58encode_int(acc, default_one=False, alphabet=alphabet)
-    return alphabet[0:1] * nPad + result
+    return alphabet[0:1] * (origlen - newlen) + result
+
+
+@lru_cache()
+def _get_base58_decode_map(alphabet: bytes) -> Mapping[int, int]:
+    map = {char: index for index, char in enumerate(alphabet)}
+    return map
 
 
 def b58decode_int(
@@ -74,9 +79,16 @@ def b58decode_int(
     v = v.rstrip()
     v = scrub_input(v)
 
+    map = _get_base58_decode_map(alphabet)
+
     decimal = 0
-    for char in v:
-        decimal = decimal * 58 + alphabet.index(char)
+
+    try:
+        for char in v:
+            decimal = decimal * 58 + map[char]
+    except KeyError:
+        raise ValueError("Invalid character")
+
     return decimal
 
 

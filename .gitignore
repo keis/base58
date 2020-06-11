@@ -1,0 +1,14 @@
+# Build/development environment
+# ============
+/.venv/
+/.venv2/
+
+# PyCharm/IDEA IDE files
+/.idea/
+
+# Byte-compiled / optimized / DLL files
+# ============
+__pycache__/
+
+# Macos folder settings file
+.DS_Store

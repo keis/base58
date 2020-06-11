@@ -4,7 +4,7 @@ import sys
 from base58 import b58decode, b58decode_check, b58encode, b58encode_check
 
 
-def main():
+def main() -> None:
     '''Base58 encode or decode FILE, or standard input, to standard output.'''
 
     stdout = sys.stdout.buffer
