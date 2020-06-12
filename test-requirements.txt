@@ -3,3 +3,4 @@ pytest-flake8
 pytest-cov
 PyHamcrest>=2.0.2
 coveralls
+pytest-benchmark
