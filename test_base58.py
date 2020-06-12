@@ -1,4 +1,6 @@
+import pytest
 from itertools import product
+from random import getrandbits
 from hamcrest import assert_that, equal_to, calling, raises
 from base58 import (
     b58encode, b58decode, b58encode_check, b58decode_check, b58encode_int,
@@ -98,3 +100,18 @@ def test_alphabet_alias_exists_and_equals_bitcoin_alphabet():
 def test_invalid_input():
     data = 'xyz0'   # 0 is not part of the bitcoin base58 alphabet
     assert_that(calling(b58decode).with_args(data), raises(ValueError))
+
+
+@pytest.mark.parametrize('length', [8, 32, 256, 1024])
+def test_encode_random(benchmark, length) -> None:
+    data = getrandbits(length * 8).to_bytes(length, byteorder='big')
+    encoded = benchmark(lambda: b58encode(data))
+    assert_that(b58decode(encoded), equal_to(data))
+
+
+@pytest.mark.parametrize('length', [8, 32, 256, 1024])
+def test_decode_random(benchmark, length) -> None:
+    origdata = getrandbits(length * 8).to_bytes(length, byteorder='big')
+    encoded = b58encode(origdata)
+    data = benchmark(lambda: b58decode(encoded))
+    assert_that(data, equal_to(origdata))

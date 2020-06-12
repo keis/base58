@@ -16,6 +16,6 @@ script:
         pip install mypy &&
         mypy .
       fi
-    - pytest --flake8 --cov=base58 .
+    - pytest --flake8 --cov=base58 --benchmark-disable .
 after_success:
     coveralls
