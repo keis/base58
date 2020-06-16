@@ -65,13 +65,24 @@ def b58encode(
 
 
 @lru_cache()
-def _get_base58_decode_map(alphabet: bytes) -> Mapping[int, int]:
-    map = {char: index for index, char in enumerate(alphabet)}
-    return map
+def _get_base58_decode_map(alphabet: bytes,
+                           autofix: bool) -> Mapping[int, int]:
+    invmap = {char: index for index, char in enumerate(alphabet)}
+
+    if autofix:
+        groups = [b'0Oo', b'Il1']
+        for group in groups:
+            pivots = [c for c in group if c in invmap]
+            if len(pivots) == 1:
+                for alternative in group:
+                    invmap[alternative] = invmap[pivots[0]]
+
+    return invmap
 
 
 def b58decode_int(
-    v: Union[str, bytes], alphabet: bytes = BITCOIN_ALPHABET
+    v: Union[str, bytes], alphabet: bytes = BITCOIN_ALPHABET, *,
+    autofix: bool = False
 ) -> int:
     """
     Decode a Base58 encoded string as an integer
@@ -79,7 +90,7 @@ def b58decode_int(
     v = v.rstrip()
     v = scrub_input(v)
 
-    map = _get_base58_decode_map(alphabet)
+    map = _get_base58_decode_map(alphabet, autofix=autofix)
 
     decimal = 0
 
@@ -93,7 +104,8 @@ def b58decode_int(
 
 
 def b58decode(
-    v: Union[str, bytes], alphabet: bytes = BITCOIN_ALPHABET
+    v: Union[str, bytes], alphabet: bytes = BITCOIN_ALPHABET, *,
+    autofix: bool = False
 ) -> bytes:
     """
     Decode a Base58 encoded string
@@ -105,7 +117,7 @@ def b58decode(
     v = v.lstrip(alphabet[0:1])
     newlen = len(v)
 
-    acc = b58decode_int(v, alphabet=alphabet)
+    acc = b58decode_int(v, alphabet=alphabet, autofix=autofix)
 
     result = []
     while acc > 0:
@@ -128,11 +140,12 @@ def b58encode_check(
 
 
 def b58decode_check(
-    v: Union[str, bytes], alphabet: bytes = BITCOIN_ALPHABET
+    v: Union[str, bytes], alphabet: bytes = BITCOIN_ALPHABET, *,
+    autofix: bool = False
 ) -> bytes:
     '''Decode and verify the checksum of a Base58 encoded string'''
 
-    result = b58decode(v, alphabet=alphabet)
+    result = b58decode(v, alphabet=alphabet, autofix=autofix)
     result, check = result[:-4], result[-4:]
     digest = sha256(sha256(result).digest()).digest()
 
