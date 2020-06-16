@@ -1,4 +1,4 @@
-pytest
+pytest>=4.6
 pytest-flake8
 pytest-cov
 PyHamcrest>=2.0.2
