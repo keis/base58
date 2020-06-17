@@ -12,3 +12,4 @@ __pycache__/
 
 # Macos folder settings file
 .DS_Store
+.coverage
