@@ -32,6 +32,11 @@ def test_simple_decode_bytes():
     assert_that(data, equal_to(b'hello world'))
 
 
+def test_autofix_decode_bytes():
+    data = b58decode(b'StVlDL6CwTryKyV', autofix=True)
+    assert_that(data, equal_to(b'hello world'))
+
+
 def test_leadingz_decode():
     data = b58decode('11StV1DL6CwTryKyV')
     assert_that(data, equal_to(b'\0\0hello world'))
@@ -64,6 +69,20 @@ def test_check_str():
     assert_that(out, equal_to(b'3vQB7B6MrGQZaxCuFg4oh'))
     back = b58decode_check(out)
     assert_that(back, equal_to(b'hello world'))
+
+
+def test_autofix_check_str():
+    data = '3vQB7B6MrGQZaxCuFg4Oh'
+    back = b58decode_check(data, autofix=True)
+    assert_that(back, equal_to(b'hello world'))
+
+
+def test_autofix_not_applicable_check_str():
+    charset = BITCOIN_ALPHABET.replace(b'x', b'l')
+    msg = b'hello world'
+    enc = b58encode_check(msg).replace(b'x', b'l').replace(b'o', b'0')
+    back = b58decode_check(enc, alphabet=charset, autofix=True)
+    assert_that(back, equal_to(msg))
 
 
 def test_check_failure():
