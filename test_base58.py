@@ -118,7 +118,9 @@ def test_alphabet_alias_exists_and_equals_bitcoin_alphabet():
 
 def test_invalid_input():
     data = 'xyz0'   # 0 is not part of the bitcoin base58 alphabet
-    assert_that(calling(b58decode).with_args(data), raises(ValueError))
+    assert_that(
+        calling(b58decode).with_args(data),
+        raises(ValueError, 'Invalid character <0>'))
 
 
 @pytest.mark.parametrize('length', [8, 32, 256, 1024])

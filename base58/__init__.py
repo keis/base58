@@ -97,9 +97,10 @@ def b58decode_int(
     try:
         for char in v:
             decimal = decimal * 58 + map[char]
-    except KeyError:
-        raise ValueError("Invalid character")
-
+    except KeyError as e:
+        raise ValueError(
+            "Invalid character <{char}>".format(char=chr(e.args[0]))
+        ) from None
     return decimal
 
 
