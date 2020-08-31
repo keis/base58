@@ -6,7 +6,7 @@
 [![Coverage Status][coveralls-image]](https://coveralls.io/r/keis/base58?branch=master)
 
 Base58 and Base58Check implementation compatible with what is used by the
-bitcoin network. Any other alternative alphabet (like the Ripple one) can be used.
+bitcoin network. Any other alternative alphabet (like the XRP one) can be used.
 
 Starting from version 2.0.0 **python2 is no longer supported** the 1.x series
 will remain supported but no new features will be added.
@@ -44,10 +44,12 @@ will remain supported but no new features will be added.
       File "base58.py", line 89, in b58decode_check
         raise ValueError("Invalid checksum")
     ValueError: Invalid checksum
-    # Use another alphabet. Here, using the built-in Ripple alphabet.
-    >>> base58.b58encode(b'hello world', alphabet=base58.RIPPLE_ALPHABET)
+    # Use another alphabet. Here, using the built-in XRP/Ripple alphabet.
+    # RIPPLE_ALPHABET is provided as an option for compatibility with existing code
+    # It is recommended to use XRP_ALPHABET instead
+    >>> base58.b58encode(b'hello world', alphabet=base58.XRP_ALPHABET)
     b'StVrDLaUATiyKyV'
-    >>> base58.b58decode(b'StVrDLaUATiyKyV', alphabet=base58.RIPPLE_ALPHABET)
+    >>> base58.b58decode(b'StVrDLaUATiyKyV', alphabet=base58.XRP_ALPHABET)
     b'hello world'
 
 
