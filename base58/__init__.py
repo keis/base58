@@ -19,6 +19,7 @@ __version__ = '2.0.1'
 BITCOIN_ALPHABET = \
     b'123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 RIPPLE_ALPHABET = b'rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz'
+XRP_ALPHABET = RIPPLE_ALPHABET
 
 # Retro compatibility
 alphabet = BITCOIN_ALPHABET
