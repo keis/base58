@@ -1,6 +1,6 @@
 dist: xenial
 language: python
-arch: 
+arch:
     - amd64
     - ppc64le
 python:
@@ -8,6 +8,7 @@ python:
     - "3.6"
     - "3.7"
     - "3.8"
+    - "3.9"
     - "pypy3.5-7.0.0"
     - "pypy3.6-7.1.1"
 jobs:
@@ -17,11 +18,11 @@ jobs:
       - arch: ppc64le
         python: pypy3.6-7.1.1
 install:
-    - pip install -r test-requirements.txt
+    - pip install '.[tests]'
 script:
-    # Only run mypy in "3.5" job, because installing it fails in PyPy jobs
+    # Only run mypy in "3.9" job, because installing it fails in PyPy jobs
     - |
-      if [[ $TRAVIS_PYTHON_VERSION == '3.5' ]]; then
+      if [[ $TRAVIS_PYTHON_VERSION == '3.9' ]]; then
         pip install mypy &&
         mypy .
       fi
