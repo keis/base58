@@ -41,8 +41,9 @@ def b58encode_int(
     if not i and default_one:
         return alphabet[0:1]
     string = b""
+    base = len(alphabet)
     while i:
-        i, idx = divmod(i, 58)
+        i, idx = divmod(i, base)
         string = alphabet[idx:idx+1] + string
     return string
 
@@ -88,16 +89,17 @@ def b58decode_int(
     """
     Decode a Base58 encoded string as an integer
     """
-    v = v.rstrip()
+    if b' ' not in alphabet:
+        v = v.rstrip()
     v = scrub_input(v)
 
     map = _get_base58_decode_map(alphabet, autofix=autofix)
 
     decimal = 0
-
+    base = len(alphabet)
     try:
         for char in v:
-            decimal = decimal * 58 + map[char]
+            decimal = decimal * base + map[char]
     except KeyError as e:
         raise ValueError(
             "Invalid character <{char}>".format(char=chr(e.args[0]))
