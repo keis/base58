@@ -4,7 +4,17 @@ from random import getrandbits
 from hamcrest import assert_that, equal_to, calling, raises
 from base58 import (
     b58encode, b58decode, b58encode_check, b58decode_check, b58encode_int,
-    b58decode_int, BITCOIN_ALPHABET, alphabet)
+    b58decode_int,
+    BITCOIN_ALPHABET,
+    XRP_ALPHABET)
+
+
+BASE45_ALPHABET = b"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:"
+
+
+@pytest.fixture(params=[BITCOIN_ALPHABET, XRP_ALPHABET, BASE45_ALPHABET])
+def alphabet(request) -> str:
+    return request.param
 
 
 def test_simple_encode():
@@ -57,12 +67,6 @@ def test_empty_decode_bytes():
     assert_that(data, equal_to(b'\0'))
 
 
-def test_check_identity():
-    data = b'hello world'
-    out = b58decode_check(b58encode_check(data))
-    assert_that(out, equal_to(data))
-
-
 def test_check_str():
     data = 'hello world'
     out = b58encode_check(data)
@@ -90,30 +94,37 @@ def test_check_failure():
     assert_that(calling(b58decode_check).with_args(data), raises(ValueError))
 
 
-def test_round_trips():
+def test_check_identity(alphabet):
+    data = b'hello world'
+    out = b58decode_check(
+        b58encode_check(data, alphabet=alphabet),
+        alphabet=alphabet
+    )
+    assert_that(out, equal_to(data))
+
+
+def test_round_trips(alphabet):
     possible_bytes = [b'\x00', b'\x01', b'\x10', b'\xff']
     for length in range(0, 5):
         for bytes_to_test in product(possible_bytes, repeat=length):
             bytes_in = b''.join(bytes_to_test)
-            bytes_out = b58decode(b58encode(bytes_in))
+            bytes_out = b58decode(
+                b58encode(bytes_in, alphabet=alphabet),
+                alphabet=alphabet)
             assert_that(bytes_in, equal_to(bytes_out))
 
 
-def test_simple_integers():
-    for idx, char in enumerate(BITCOIN_ALPHABET):
+def test_simple_integers(alphabet):
+    for idx, char in enumerate(alphabet):
         charbytes = bytes([char])
-        assert_that(b58decode_int(charbytes), equal_to(idx))
-        assert_that(b58encode_int(idx), equal_to(charbytes))
+        assert_that(b58decode_int(charbytes, alphabet=alphabet), equal_to(idx))
+        assert_that(b58encode_int(idx, alphabet=alphabet), equal_to(charbytes))
 
 
 def test_large_integer():
     number = 0x111d38e5fc9071ffcd20b4a763cc9ae4f252bb4e48fd66a835e252ada93ff480d6dd43dc62a641155a5  # noqa
     assert_that(b58decode_int(BITCOIN_ALPHABET), equal_to(number))
     assert_that(b58encode_int(number), equal_to(BITCOIN_ALPHABET[1:]))
-
-
-def test_alphabet_alias_exists_and_equals_bitcoin_alphabet():
-    assert_that(alphabet, equal_to(BITCOIN_ALPHABET))
 
 
 def test_invalid_input():
