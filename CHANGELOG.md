@@ -1,5 +1,17 @@
 ## Changelog
 
+### v2.1.0 / 2021-01-09
+- [#64](https://github.com/keis/base58/pull/64) Parametrise a few tests over alphabet (@keis)
+- [#63](https://github.com/keis/base58/pull/63) Made it handle any base with passing alphabet. (#63) (@tanupoo)
+- [#62](https://github.com/keis/base58/pull/62) Setup cfg (@keis)
+- [#61](https://github.com/keis/base58/pull/61) Add support to ppc64le (@gururajrkatti)
+- [#60](https://github.com/keis/base58/pull/60) Update README.md (@alloyxrp)
+- [#59](https://github.com/keis/base58/pull/59) New alias for XRP alphabet (@alloyxrp)
+- [#58](https://github.com/keis/base58/pull/58) Improve invalid character message (@keis)
+- [#57](https://github.com/keis/base58/pull/57) Autofix for similar letters (@keis)
+- [#56](https://github.com/keis/base58/pull/56) Add performance benchmarks using pytest-benchmark (@keis)
+- [#53](https://github.com/keis/base58/pull/53) Performance optimizations (@kolomenkin)
+
 ### v2.0.1 / 2020-06-06
 - [#55](https://github.com/keis/base58/pull/55) Include license file in source distribution (@synapticarbors)
 - [#50](https://github.com/keis/base58/pull/50) Typecheck tests now that hamcrest has typing (@keis)
@@ -47,4 +59,3 @@
 ### v0.2.2 / 2015-04-09
 - [#3](https://github.com/keis/base58/pull/3) test round trips (@oconnor663)
 - [#2](https://github.com/keis/base58/pull/2) fix encoding of empty string (@keis)
-
