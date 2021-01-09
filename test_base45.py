@@ -1,8 +1,5 @@
-from itertools import product
 from hamcrest import assert_that, equal_to, calling, raises
-from base58 import (
-    b58encode, b58decode, b58encode_check, b58decode_check, b58encode_int,
-    b58decode_int)
+from base58 import (b58encode, b58decode, b58encode_check, b58decode_check)
 
 BASE45_ALPHABET = b"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:"
 
@@ -58,13 +55,6 @@ def test_empty_decode_bytes():
     assert_that(data, equal_to(b'\x01'))
 
 
-def test_check_identity():
-    data = b'hello world'
-    out = b58decode_check(b58encode_check(data, alphabet=BASE45_ALPHABET),
-                          alphabet=BASE45_ALPHABET)
-    assert_that(out, equal_to(data))
-
-
 def test_check_str():
     data = 'hello world'
     out = b58encode_check(data, alphabet=BASE45_ALPHABET)
@@ -91,39 +81,6 @@ def test_autofix_not_applicable_check_str():
 def test_check_failure():
     data = '3vQB7B6MrGQZaxCuFg4oH'
     assert_that(calling(b58decode_check).with_args(data), raises(ValueError))
-
-
-def test_round_trips():
-    possible_bytes = [b'\x00', b'\x01', b'\x10', b'\xff']
-    for length in range(0, 5):
-        for bytes_to_test in product(possible_bytes, repeat=length):
-            bytes_in = b''.join(bytes_to_test)
-            bytes_out = b58decode(
-                b58encode(bytes_in, alphabet=BASE45_ALPHABET),
-                alphabet=BASE45_ALPHABET)
-            assert_that(bytes_in, equal_to(bytes_out))
-
-
-# invmap is only required for base58 conversion.
-def test_simple_integers():
-    for idx, char in enumerate(BASE45_ALPHABET):
-        charbytes = bytes([char])
-        assert_that(
-            b58decode_int(charbytes, alphabet=BASE45_ALPHABET),
-            equal_to(idx))
-        assert_that(
-            b58encode_int(idx, alphabet=BASE45_ALPHABET),
-            equal_to(charbytes))
-
-
-def test_large_integer():
-    number = 128132047753791913995170032229035480239943482175957729505020971140585654  # noqa
-    assert_that(
-        b58decode_int(BASE45_ALPHABET, alphabet=BASE45_ALPHABET),
-        equal_to(number))
-    assert_that(
-        b58encode_int(number, alphabet=BASE45_ALPHABET),
-        equal_to(BASE45_ALPHABET[1:]))
 
 
 def test_invalid_input():
