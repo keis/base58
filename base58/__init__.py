@@ -89,7 +89,8 @@ def b58decode_int(
     """
     Decode a Base58 encoded string as an integer
     """
-    v = v.rstrip()
+    if b' ' not in alphabet:
+        v = v.rstrip()
     v = scrub_input(v)
 
     map = _get_base58_decode_map(alphabet, autofix=autofix)
