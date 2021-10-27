@@ -128,10 +128,10 @@ def test_large_integer():
 
 
 def test_invalid_input():
-    data = 'xyz0'   # 0 is not part of the bitcoin base58 alphabet
+    data = 'xyz\b'   # backspace is not part of the bitcoin base58 alphabet
     assert_that(
         calling(b58decode).with_args(data),
-        raises(ValueError, 'Invalid character <0>'))
+        raises(ValueError, "Invalid character '\\\\x08'"))
 
 
 @pytest.mark.parametrize('length', [8, 32, 256, 1024])
