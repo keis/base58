@@ -102,7 +102,7 @@ def b58decode_int(
             decimal = decimal * base + map[char]
     except KeyError as e:
         raise ValueError(
-            "Invalid character <{char}>".format(char=chr(e.args[0]))
+            "Invalid character {!r}".format(chr(e.args[0]))
         ) from None
     return decimal
 
