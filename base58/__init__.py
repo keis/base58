@@ -13,7 +13,7 @@ from functools import lru_cache
 from hashlib import sha256
 from typing import Mapping, Union
 
-__version__ = '2.1.0'
+__version__ = '2.1.1'
 
 # 58 character alphabet used
 BITCOIN_ALPHABET = \

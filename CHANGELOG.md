@@ -1,12 +1,16 @@
 ## Changelog
 
+### v2.1.1 / 2021-10-30
+- [#67](https://github.com/keis/base58/pull/67) use github actions (@keis)
+- [#66](https://github.com/keis/base58/pull/66) Escape illegal special characters in error message (@hukkin)
+
 ### v2.1.0 / 2021-01-09
 - [#64](https://github.com/keis/base58/pull/64) Parametrise a few tests over alphabet (@keis)
 - [#63](https://github.com/keis/base58/pull/63) Made it handle any base with passing alphabet. (#63) (@tanupoo)
 - [#62](https://github.com/keis/base58/pull/62) Setup cfg (@keis)
 - [#61](https://github.com/keis/base58/pull/61) Add support to ppc64le (@gururajrkatti)
-- [#60](https://github.com/keis/base58/pull/60) Update README.md (@alloyxrp)
-- [#59](https://github.com/keis/base58/pull/59) New alias for XRP alphabet (@alloyxrp)
+- [#60](https://github.com/keis/base58/pull/60) Update README.md (@alloynetworks)
+- [#59](https://github.com/keis/base58/pull/59) New alias for XRP alphabet (@alloynetworks)
 - [#58](https://github.com/keis/base58/pull/58) Improve invalid character message (@keis)
 - [#57](https://github.com/keis/base58/pull/57) Autofix for similar letters (@keis)
 - [#56](https://github.com/keis/base58/pull/56) Add performance benchmarks using pytest-benchmark (@keis)
