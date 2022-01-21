@@ -1,3 +1,5 @@
+"""Base58 encode or decode FILE (or standard input) to standard output."""
+
 import argparse
 import sys
 from typing import Callable, Dict, Tuple
@@ -13,25 +15,27 @@ _fmap = {
 
 
 def main() -> None:
-    '''Base58 encode or decode FILE, or standard input, to standard output.'''
 
     stdout = sys.stdout.buffer
 
-    parser = argparse.ArgumentParser(description=main.__doc__)
+    parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         'file',
         metavar='FILE',
         nargs='?',
         type=argparse.FileType('r'),
+        help=("File to encode or decode. If no file is provided standard "
+            "input is used instead"),
         default='-')
     parser.add_argument(
         '-d', '--decode',
         action='store_true',
-        help='decode data')
+        help="decode data instead of encoding")
     parser.add_argument(
         '-c', '--check',
         action='store_true',
-        help='append a checksum before encoding')
+        help=("calculate a checksum and append to encoded data or verify "
+            "existing checksum when decoding"))
 
     args = parser.parse_args()
     fun = _fmap[(args.decode, args.check)]
