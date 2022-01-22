@@ -24,7 +24,8 @@ def main() -> None:
         metavar='FILE',
         nargs='?',
         type=argparse.FileType('r'),
-        help=("File to encode or decode. If no file is provided standard "
+        help=(
+            "File to encode or decode. If no file is provided standard "
             "input is used instead"),
         default='-')
     parser.add_argument(
@@ -34,7 +35,8 @@ def main() -> None:
     parser.add_argument(
         '-c', '--check',
         action='store_true',
-        help=("calculate a checksum and append to encoded data or verify "
+        help=(
+            "calculate a checksum and append to encoded data or verify "
             "existing checksum when decoding"))
 
     args = parser.parse_args()
