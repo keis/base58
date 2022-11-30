@@ -134,14 +134,14 @@ def test_invalid_input():
         raises(ValueError, "Invalid character '\\\\x08'"))
 
 
-@pytest.mark.parametrize('length', [8, 32, 256, 1024])
+@pytest.mark.parametrize('length', [8, 32, 256, 1024, 8192])
 def test_encode_random(benchmark, length) -> None:
     data = getrandbits(length * 8).to_bytes(length, byteorder='big')
     encoded = benchmark(lambda: b58encode(data))
     assert_that(b58decode(encoded), equal_to(data))
 
 
-@pytest.mark.parametrize('length', [8, 32, 256, 1024])
+@pytest.mark.parametrize('length', [8, 32, 256, 1024, 8192])
 def test_decode_random(benchmark, length) -> None:
     origdata = getrandbits(length * 8).to_bytes(length, byteorder='big')
     encoded = b58encode(origdata)
