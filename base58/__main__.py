@@ -6,12 +6,12 @@ from typing import Callable, Dict, Tuple
 
 from base58 import b58decode, b58decode_check, b58encode, b58encode_check
 
-_fmap = {
+_fmap: Dict[Tuple[bool, bool], Callable[[bytes], bytes]] = {
     (False, False): b58encode,
     (False, True): b58encode_check,
     (True, False): b58decode,
     (True, True): b58decode_check
-}  # type: Dict[Tuple[bool, bool], Callable[[bytes], bytes]]
+}
 
 
 def main() -> None:
