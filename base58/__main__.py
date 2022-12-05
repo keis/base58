@@ -20,24 +20,22 @@ def main() -> None:
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        'file',
-        metavar='FILE',
-        nargs='?',
-        type=argparse.FileType('r'),
-        help=(
-            "File to encode or decode. If no file is provided standard "
-            "input is used instead"),
-        default='-')
+        "file",
+        metavar="FILE",
+        nargs="?",
+        type=argparse.FileType("r"),
+        help="File to encode or decode. If no file is provided standard input is used instead",
+        default="-",
+    )
     parser.add_argument(
-        '-d', '--decode',
-        action='store_true',
-        help="decode data instead of encoding")
+        "-d", "--decode", action="store_true", help="decode data instead of encoding"
+    )
     parser.add_argument(
-        '-c', '--check',
-        action='store_true',
-        help=(
-            "calculate a checksum and append to encoded data or verify "
-            "existing checksum when decoding"))
+        "-c",
+        "--check",
+        action="store_true",
+        help="calculate a checksum and append to encoded data or verify existing checksum when decoding",
+    )
 
     args = parser.parse_args()
     fun = _fmap[(args.decode, args.check)]
@@ -52,5 +50,5 @@ def main() -> None:
     stdout.write(result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
