@@ -123,12 +123,7 @@ def b58decode(
 
     acc = b58decode_int(v, alphabet=alphabet, autofix=autofix)
 
-    result = []
-    while acc > 0:
-        acc, mod = divmod(acc, 256)
-        result.append(mod)
-
-    return b'\0' * (origlen - newlen) + bytes(reversed(result))
+    return acc.to_bytes(origlen - newlen + (acc.bit_length() + 7) // 8, 'big')
 
 
 def b58encode_check(
