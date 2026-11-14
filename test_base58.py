@@ -147,3 +147,12 @@ def test_decode_random(benchmark, length) -> None:
     encoded = b58encode(origdata)
     data = benchmark(lambda: b58decode(encoded))
     assert_that(data, equal_to(origdata))
+
+
+@pytest.mark.parametrize('data', ['n', '4h3c6RH'])
+def test_too_short_checksum(data) -> None:
+    # Verify the correct exception is raised when decoded data is shorter than
+    # an accepted checksum
+    assert_that(
+        calling(b58decode_check).with_args(data),
+        raises(ValueError, "Invalid checksum"))
