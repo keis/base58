@@ -114,7 +114,8 @@ def b58decode(
     """
     Decode a Base58 encoded string
     """
-    v = v.rstrip()
+    if b' ' not in alphabet:
+        v = v.rstrip()
     v = scrub_input(v)
 
     origlen = len(v)
