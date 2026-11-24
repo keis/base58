@@ -156,3 +156,31 @@ def test_too_short_checksum(data) -> None:
     assert_that(
         calling(b58decode_check).with_args(data),
         raises(ValueError, "Invalid checksum"))
+
+
+@pytest.mark.parametrize('data', [b'$', b'\0$', b'\0\0$', b'\x06x'])
+@pytest.mark.parametrize('as_text', [False, True])
+def test_decode_preserves_trailing_space_digits(data, as_text):
+    encoded = b58encode(data, alphabet=BASE45_ALPHABET)
+    assert encoded.endswith(b' ')
+    value = encoded.decode('ascii') if as_text else encoded
+    assert b58decode(value, alphabet=BASE45_ALPHABET) == data
+
+
+@pytest.mark.parametrize('as_text', [False, True])
+def test_decode_check_preserves_trailing_space_digit(as_text):
+    data = b'1'
+    encoded = b58encode_check(data, alphabet=BASE45_ALPHABET)
+    assert encoded.endswith(b' ')
+    value = encoded.decode('ascii') if as_text else encoded
+    assert b58decode_check(value, alphabet=BASE45_ALPHABET) == data
+
+
+@pytest.mark.parametrize('alphabet', [BITCOIN_ALPHABET, XRP_ALPHABET])
+@pytest.mark.parametrize('suffix', [b' ', b'\t\n'])
+@pytest.mark.parametrize('as_text', [False, True])
+def test_decode_still_ignores_trailing_whitespace(alphabet, suffix, as_text):
+    data = b'\0hello world'
+    encoded = b58encode(data, alphabet=alphabet) + suffix
+    value = encoded.decode('ascii') if as_text else encoded
+    assert b58decode(value, alphabet=alphabet) == data
